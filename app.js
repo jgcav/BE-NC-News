@@ -1,11 +1,16 @@
 const express = require('express')
-const {getTopics} = require('./controllers/news.controllers')
-const {error404} = require('./errors/errors')
+const {getTopics, getArticleById} = require('./controllers/news.controllers')
+const {handle404, handleCustomErrors, handlePsqlErrors} = require('./errors/errors')
 
 const app = express()
 
-app.get('/api/topics', getTopics)
 
-app.all('/*', error404)
+app.get('/api/topics', getTopics)
+app.get('/api/articles/:article_id', getArticleById)
+
+app.all('/*', handle404)
+
+app.use(handlePsqlErrors)
+app.use(handleCustomErrors)
 
 module.exports = app
