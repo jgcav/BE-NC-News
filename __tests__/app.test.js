@@ -99,10 +99,19 @@ describe('/api/articles/:article_id', () => {
                 )
             })
             })
-            test('status 400: returns a bad request error if request is made with invalid request object', () => {
+            test('status 400: returns a bad request error if request is made and the request object does not include an inc_votes property', () => {
                 return request(app)
                 .patch('/api/articles/1')
-                .send({inc__votes: 50})
+                .send({votes: 50})
+                .expect(400)
+                .then(({body}) => {
+                    expect(body.msg).toBe("Bad request. Invalid input.")
+                })
+            });
+            test('status 400: returns a bad request error if request is made and the inc_votes property value is not a number', () => {
+                return request(app)
+                .patch('/api/articles/1')
+                .send({inc_votes: "invalid"})
                 .expect(400)
                 .then(({body}) => {
                     expect(body.msg).toBe("Bad request. Invalid input.")
