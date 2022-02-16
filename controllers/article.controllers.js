@@ -1,11 +1,4 @@
-const {fetchTopics, fetchArticleById, amendArticleVotesById} = require('../models/news.models')
-
-exports.getTopics = (req, res, next) => {
-    fetchTopics()
-    .then((topics) => {
-        res.status(200).send(topics)
-    }).catch(next)
-}
+const {fetchArticleById, amendArticleVotesById} = require('../models/article.models')
 
 exports.getArticleById = (req, res, next) => {
     const {article_id} = req.params

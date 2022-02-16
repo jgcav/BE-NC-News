@@ -22,7 +22,7 @@ describe('app', () => {
     });
 });
 
-describe('GET /api/topics', () => {
+describe('/api/topics', () => {
     test('status 200: returns an array of topic objects', () => {
         return request(app)
         .get('/api/topics')
@@ -137,4 +137,22 @@ describe('/api/articles/:article_id', () => {
             });
     });
     
+});
+
+describe('/api/users', () => {
+    test('status 200: returns an array of objects with a username property', () => {
+        return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({body}) => {
+            expect(body.length).toBe(4)
+            body.forEach((user) => {
+                expect(user).toEqual(
+                    expect.objectContaining({
+                        username: expect.any(String)
+                    })
+                )
+            })
+        })
+    });
 });
