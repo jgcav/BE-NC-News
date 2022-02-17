@@ -36,3 +36,15 @@ exports.amendArticleVotesById = (article_id, updateVotes) => {
         return rows
     })
 }
+
+exports.fetchArticles = () => {
+    return db.query(`
+    SELECT articles.*
+    FROM articles
+    GROUP BY articles.article_id
+    ORDER BY created_at desc
+    `)
+    .then(({rows}) => {
+        return rows
+    })
+}
