@@ -39,7 +39,7 @@ exports.amendArticleVotesById = (article_id, updateVotes) => {
 
 exports.fetchArticles = () => {
     return db.query(`
-    SELECT articles.*
+    SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes
     FROM articles
     GROUP BY articles.article_id
     ORDER BY created_at desc
