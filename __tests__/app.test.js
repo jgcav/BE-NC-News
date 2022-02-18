@@ -75,7 +75,7 @@ describe('/api/articles/:article_id', () => {
             .get('/api/articles/13')
             .expect(404)
             .then(({body}) => {
-                expect(body.msg).toBe("ID 13 does not exist")
+                expect(body.msg).toBe("Article ID 13 does not exist")
             })
         });
     });
@@ -133,7 +133,7 @@ describe('/api/articles/:article_id', () => {
                 .send({inc_votes: 50})
                 .expect(404)
                 .then(({body}) => {
-                expect(body.msg).toBe("ID 108 does not exist")
+                expect(body.msg).toBe("Article ID 108 does not exist")
                 })
             });
     });
@@ -202,20 +202,20 @@ describe('/api/articles/:article_id/comments', () => {
         })
           
   });
+  test('status 200: returns an empty array if valid id is requested but article has no comments', () => {
+      return request(app)
+      .get('/api/articles/7/comments')
+      .expect(200)
+      .then(({body}) => {
+        expect(body.comments).toEqual([])
+      })
+});
     test('status 404: returns a not found error if valid id is requested but article does not exist', () => {
         return request(app)
         .get('/api/articles/3000/comments')
         .expect(404)
         .then(({body}) => {
-          expect(body.msg).toBe('No comments found for article ID 3000')
-        })
-  });
-    test('status 404: returns a not found error if valid id is requested but article has no comments', () => {
-        return request(app)
-        .get('/api/articles/7/comments')
-        .expect(404)
-        .then(({body}) => {
-          expect(body.msg).toBe('No comments found for article ID 7')
+          expect(body.msg).toBe('Article ID 3000 does not exist')
         })
   });
     test('status 400: returns a bad request error if the requested id is invalid', () => {
