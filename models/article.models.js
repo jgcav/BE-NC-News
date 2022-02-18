@@ -13,7 +13,7 @@ exports.fetchArticleById = (article_id) => {
         if(!article){
             return Promise.reject({
                 status: 404,
-                msg: `ID ${article_id} does not exist`
+                msg: `Article ID ${article_id} does not exist`
             })
         }
         return {article}
@@ -36,7 +36,7 @@ exports.amendArticleVotesById = (article_id, updateVotes) => {
         if (rows.length === 0){
             return Promise.reject({
                 status: 404,
-                msg: `ID ${article_id} does not exist`
+                msg: `Article ID ${article_id} does not exist`
             })
         }
         return rows
