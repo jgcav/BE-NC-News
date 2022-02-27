@@ -43,13 +43,39 @@ exports.amendArticleVotesById = (article_id, updateVotes) => {
     })
 }
 
-exports.fetchArticles = () => {
-    return db.query(`
-    SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes
+exports.fetchArticles = (sort_by = "created_at", order = "desc", topic) => {
+
+    if(!["author", "title", "article_id", "topic", "created_at", "votes"].includes(sort_by)){
+        return Promise.reject({
+            status: 400,
+            msg: `Bad request. Invalid sort_by query.`
+        })
+    }
+    if(!["asc", "desc",].includes(order)){
+        return Promise.reject({
+            status: 400,
+            msg: `Bad request. Invalid order query.`
+        })
+    }
+
+    let query = `
+    SELECT articles.*,
+    COUNT(comments.comment_id) AS comment_count
     FROM articles
+    LEFT JOIN comments
+    ON articles.article_id = comments.article_id
+    `
+    if (["coding", "football", "cooking", "mitch", "cats", "paper"].includes(topic)){
+        query += `WHERE topic = '${topic}'`
+    } else if (topic !== undefined) {
+        return Promise.reject({status: 404, msg: "No topic found"})
+    }
+
+    query += `
     GROUP BY articles.article_id
-    ORDER BY created_at desc
-    `)
+    ORDER BY ${sort_by} ${order}
+    `
+    return db.query(query)
     .then(({rows}) => {
         return rows
     })
