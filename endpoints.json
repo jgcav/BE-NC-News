@@ -9,6 +9,13 @@
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
   },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [{ "username": "rogersop"}, {"username": "lurker"}]
+  }
+},
   "GET /api/articles": {
     "description": "serves an array of all topics",
     "queries": ["author", "topic", "sort_by", "order"],
@@ -19,9 +26,82 @@
           "topic": "cooking",
           "author": "weegembump",
           "body": "Text from the article..",
-          "created_at": 1527695953341
+          "created_at": 1527695953341,
+          "votes": 11,
+          "comment_count": 1
         }
       ]
     }
-  }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an article by article id",
+    "queries": [],
+    "exampleResponse": {
+      "article": [
+        {
+          "article_id": 1,
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "created_at": 1527695953341,
+          "votes": 11,
+          "comment_count": 1
+        }
+      ]
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an array of comments for given article id",
+    "queries": [],
+    "exampleResponse": [
+        {
+          "comment_id": 1,
+          "votes": 14,
+          "created_at": 1604113380000,
+          "author": "butter_bridge",
+          "body": "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
+          "article_id": 1
+        }
+      ]
+    },
+  "POST /api/articles/:article_id/comments": {
+    "description": "adds and returns a new comment",
+    "queries": [],
+    "exampleRequest": {"username": "user1", "body": "example comment"},
+    "exampleResponse": [
+        {
+          "comment_id": 23,
+          "votes": 0,
+          "created_at": 1604113380000,
+          "author": "user1",
+          "body": "example comment",
+          "article_id": 1
+        }
+      ]
+    },
+    "PATCH /api/articles/:article_id": {
+      "description": "updates article's vote property and returns updated article",
+      "queries": [],
+      "exampleRequest": {"inc_votes": 1},
+      "exampleResponse": {
+        "article": [
+          {
+            "article_id": 1,
+            "title": "Seafood substitutions are increasing",
+            "topic": "cooking",
+            "author": "weegembump",
+            "body": "Text from the article..",
+            "created_at": 1527695953341,
+            "votes": 12,
+            "comment_count": 1
+          }
+        ]
+      }
+    },
+    "DELETE /api/comments/:comment_id": {
+      "description": "deletes comment by given comment id and returns no response",
+      "queries": [],
+      "exampleResponse": {}
+    }
 }
