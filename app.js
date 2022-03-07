@@ -5,6 +5,9 @@ const {getUsers} = require('./controllers/user.controllers')
 const {getCommentsByArticleId, postCommentsByArticleId, deleteCommentsByCommentId} = require('./controllers/comment.controllers')
 const {handle404, handleCustomErrors, handlePsqlErrors} = require('./errors/errors')
 const { getEndpoints } = require('./controllers/endpoints.controllers')
+const cors = require('cors')
+
+app.use(cors())
 
 const app = express()
 app.use(express.json())
